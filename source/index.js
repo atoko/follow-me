@@ -1,5 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+import configureStore from './stores/configureStore';
+import * as actions from './actions';
 import Agenda from './components/Agenda';
 
 const data = {
@@ -63,7 +66,12 @@ const data = {
   ]
 }
 
+const store = configureStore();
+store.dispatch(actions.setAgenda(data));
+
 ReactDOM.render(
-  <Agenda categories={data.categories}/>,
+ <Provider store={store}>
+    <Agenda />
+  </Provider>,
   document.getElementById('app')
 );

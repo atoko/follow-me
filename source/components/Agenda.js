@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 function Category({tasks = [], category = ""}) {
 	var taskData = <div>--> No tasks!</div>;
@@ -6,7 +7,7 @@ function Category({tasks = [], category = ""}) {
 	if (tasks.length > 0 && tasks[0] != null)
 	{
 		taskData = tasks.map((task) => {
-			return <div key={task.id}>-->{task.task}</div>
+			return <div key={task.id}>-  ->{task.task}</div>
 		})
 	}
 	return (
@@ -19,11 +20,11 @@ function Category({tasks = [], category = ""}) {
 	)
 }
 
-function Agenda({ categories = [] }) {
+function Agenda({ agenda = {} }) {
 	return (
 		<div>
 		{
-			categories.map((category) => {
+			agenda.categories.map((category) => {
 				return <Category className="category" key={category.category_id} tasks={category.tasks} category={category.category}/>;
 			})
 		}
@@ -31,4 +32,11 @@ function Agenda({ categories = [] }) {
 	);
 }
 
-export default Agenda;
+function mapStateToProps(state) {
+  const agenda = state.agenda[0];
+  return {
+    agenda
+  }
+}
+
+export default connect(mapStateToProps)(Agenda);
