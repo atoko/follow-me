@@ -12,5 +12,5 @@ export default function(state = initialState, action) {
 
 function setAgenda(state, action) {
   const { agenda } = action;
-  return [ ...state, agenda ];
+  return { ...state, ...agenda };
 }

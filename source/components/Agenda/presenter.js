@@ -1,5 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
 
 function Category({tasks = [], category = ""}) {
 	var taskData = <div>--> No tasks!</div>;
@@ -20,7 +19,7 @@ function Category({tasks = [], category = ""}) {
 	)
 }
 
-function Agenda({ agenda = {} }) {
+function Agenda({ agenda = {}, onAdd }) {
 	return (
 		<div>
 		{
@@ -32,11 +31,4 @@ function Agenda({ agenda = {} }) {
 	);
 }
 
-function mapStateToProps(state) {
-  const agenda = state.agenda[0];
-  return {
-    agenda
-  }
-}
-
-export default connect(mapStateToProps)(Agenda);
+export default Agenda;

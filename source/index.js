@@ -1,8 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Router, Route, IndexRoute, browserHistory } from 'react-router';
+import { syncHistoryWithStore } from 'react-router-redux';
 import { Provider } from 'react-redux';
 import configureStore from './stores/configureStore';
 import * as actions from './actions';
+import App from './components/App';
 import Agenda from './components/Agenda';
 
 const data = {
@@ -68,10 +71,18 @@ const data = {
 
 const store = configureStore();
 store.dispatch(actions.setAgenda(data));
+const history = syncHistoryWithStore(browserHistory, store);
+
 
 ReactDOM.render(
- <Provider store={store}>
-    <Agenda />
+ <Provider store={store}>   
+  <Router history={history}>
+      <Route path="/" component={App}>
+        <IndexRoute component={Agenda} />
+        <Route path="/" component={Agenda} />
+
+      </Route>
+    </Router>
   </Provider>,
   document.getElementById('app')
 );

@@ -1,3 +1,5 @@
+var webpack = require('webpack');
+
 module.exports = {
   entry: [   
     'webpack/hot/only-dev-server',  
@@ -20,6 +22,13 @@ module.exports = {
     filename: 'bundle.js'
   },
   devServer: {
-    contentBase: './distribution'
-  }
+    contentBase: './distribution',
+    hot: true,
+    historyApiFallback: true
+  },
+  plugins: [
+    new webpack.ProvidePlugin({
+      'fetch': 'imports?this=>global!exports?global.fetch!whatwg-fetch'
+    })
+  ]  
 };
