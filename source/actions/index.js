@@ -1,6 +1,7 @@
-import { setAgenda, addCategory } from './agenda';
+import { setAgenda, addCategory, addTask } from './agenda';
 
 export {
   setAgenda,
-  addCategory
+  addCategory,
+  addTask
 };

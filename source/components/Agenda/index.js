@@ -1,4 +1,3 @@
-import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as actions from '../../actions';
@@ -12,9 +11,9 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  debugger;
   return {
-    onAdd: bindActionCreators(actions.addCategory, dispatch)
+    doAddTask: bindActionCreators(actions.addTask, dispatch),
+    doAddCategory: bindActionCreators(actions.addCategory, dispatch)
   };
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Agenda);

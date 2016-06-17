@@ -9,7 +9,7 @@ import App from './components/App';
 import Agenda from './components/Agenda';
 
 const data = {
-  "id": 1,
+  "agenda_id": 1,
   "agenda": "nyc",
   "categories": [
     {
@@ -18,7 +18,7 @@ const data = {
       "category": "food",
       "tasks": [
         {
-          "id": 1,
+          "task_id": 1,
           "category_id": 1,
           "task": "kimchi",
           "location": null,
@@ -30,10 +30,8 @@ const data = {
     {
       "category_id": 2,
       "agenda_id": 1,
-      "category": "the fucking pit",
-      "tasks": [
-        null
-      ]
+      "category": "the pit",
+      "tasks": []
     },
     {
       "category_id": 3,
@@ -41,23 +39,15 @@ const data = {
       "category": "delta",
       "tasks": [
         {
-          "id": 2,
+          "task_id": 2,
           "category_id": 3,
-          "task": "meatgrinder",
+          "task": "rawr XD",
           "location": null,
           "file_id": null,
           "visited": null
         },
         {
-          "id": 4,
-          "category_id": 3,
-          "task": "take selfie",
-          "location": null,
-          "file_id": null,
-          "visited": null
-        },
-        {
-          "id": 3,
+          "task_id": 4,
           "category_id": 3,
           "task": "take selfie",
           "location": null,

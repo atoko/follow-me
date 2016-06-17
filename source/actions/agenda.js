@@ -14,34 +14,39 @@ export function newCategory(category) {
   };
 };
 
+export function newTask(task) {
+  return {
+    type: actionTypes.TASK_ADD,
+    task
+  };
+};
+
+
 export function addCategory(name, agenda_id)
 {
   return (dispatch => {
-    var category = {
-      agenda_id,
-      category: name,
-      tasks: []
-    };  
-
     setTimeout(function() {
+      var category = {
+        agenda_id,
+        category: name,
+        tasks: []
+      };        
       category["category_id"] = (new Date()).getTime(); 
       dispatch(newCategory(category));
-    }, 500);
+    }, 1);
   }).bind(this);
 }
 
 export function addTask(name, category_id)
 {
   return (dispatch => {
-    var category = {
-      agenda_id,
-      category: name,
-      tasks: []
-    };  
-
     setTimeout(function() {
-      category["category_id"] = (new Date()).getTime(); 
-      dispatch(newCategory(category));
-    }, 500);
+      var task = {
+        category_id,
+        task: name
+      };        
+      task["task_id"] = (new Date()).getTime(); 
+      dispatch(newTask(task));
+    }, 1);
   }).bind(this);
 }
