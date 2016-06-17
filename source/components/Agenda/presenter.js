@@ -20,6 +20,7 @@ function Category({tasks = [], category = ""}) {
 }
 
 function Agenda({ agenda = {}, onAdd }) {
+	debugger;
 	return (
 		<div>
 		{
@@ -27,6 +28,7 @@ function Agenda({ agenda = {}, onAdd }) {
 				return <Category className="category" key={category.category_id} tasks={category.tasks} category={category.category}/>;
 			})
 		}
+		<input type="button" text=">Add Category" onClick={() => {onAdd("dad", agenda.id)}}/>
 		</div>
 	);
 }

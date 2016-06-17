@@ -12,8 +12,9 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
+  debugger;
   return {
-    //onAuth: bindActionCreators(actions.auth, dispatch)
+    onAdd: bindActionCreators(actions.addCategory, dispatch)
   };
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Agenda);
