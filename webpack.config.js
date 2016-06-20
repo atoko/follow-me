@@ -25,10 +25,10 @@ module.exports = {
     contentBase: './distribution',
     hot: true,
     historyApiFallback: true
-  },
+  }/*,
   plugins: [
     new webpack.ProvidePlugin({
-      'fetch': 'imports?this=>global!exports?global.fetch!whatwg-fetch'
+      'fetch': 'whatwg-fetch'
     })
-  ]  
+  ]  */
 };

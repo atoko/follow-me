@@ -27,18 +27,9 @@ class Task extends React.Component
 			if (cb == "OK")
 			{
 				const location = c[0].geometry.location;
-				this.props.updateTask(this.props.task, {location: [location.lat(), location.lng()]});
+				this.props.updateTask(this.props.task, {location: {lat: location.lat(), lng: location.lng()}});
 			}
 		}.bind(this));
-	}
-	renderLocation()
-	{
-		const task = this.props.task;
-		var map = new google.maps.Map(document.getElementById("taskLocation_" + task.task_id), {
-			center: {lat: 36.964, lng: -122.015},
-			zoom: 18,
-			mapTypeId: google.maps.MapTypeId.SATELLITE
-		});		
 	}
 	render() 
 	{
@@ -52,7 +43,7 @@ class Task extends React.Component
 				<input type="file" onChange={(f) => {this.fileUpload(f);}}/>;
 
 			const location = (task.location != null) ?
-					<div id={"taskLocation_" + task.task_id} onClick={() => {this.renderLocation();}}>{task.location}</div> :
+					<div>{JSON.stringify(task.location)}</div> :
 					<div>
 						<input id={"taskAddLoc_" + task.task_id}/>
 						<input type="button" value="Add location" onClick={() => this.addressUpload()}/> 

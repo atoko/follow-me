@@ -32,29 +32,48 @@ export function setTask(task) {
 export function addCategory(name, agenda_id)
 {
   return (dispatch => {
-    setTimeout(function() {
-      var category = {
-        agenda_id,
-        category: name,
-        tasks: []
-      };        
-      category["category_id"] = (new Date()).getTime(); 
-      dispatch(newCategory(category));
-    }, 1);
+    fetch(`http://localhost:3000/category/new/${agenda_id}`, {
+      method: 'POST',  
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({category: name}),
+      mode: 'cors'
+    })
+      .then((response) => response.json())
+      .then((category) => {
+        if (category.error)
+        {
+          console.log(`addCategory failed: ${category.error}`);
+          return;
+        }
+        dispatch(newCategory(category));
+      });
   }).bind(this);
 }
 
 export function addTask(name, category_id)
 {
   return (dispatch => {
-    setTimeout(function() {
-      var task = {
-        category_id,
-        task: name
-      };        
-      task["task_id"] = (new Date()).getTime(); 
-      dispatch(newTask(task));
-    }, 1);
+    fetch(`http://localhost:3000/task/new/${category_id}`, {
+      method: 'POST',  
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({task: name}),
+      mode: 'cors'
+    })
+      .then((response) => response.json())
+      .then((task) => {
+        if (task.error)
+        {
+          console.log(`addTask failed: ${task.error}`);
+          return;
+        }
+        dispatch(newTask(task));
+      })
   }).bind(this);
 }
 

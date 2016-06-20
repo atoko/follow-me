@@ -3,8 +3,29 @@ import Category from './../Category';
 import GoogleMap from 'google-map-react';
 
 function Agenda({ agenda = {}, doAddCategory, doAddTask }) {
-	var categoryNameInput = <input />;
-	const center = {lat:59, lng:33};
+	let categoryNameInput = <input />;
+	const center = {"lat":40.7780464,"lng":-73.97867859999997};
+	
+	if (agenda.agenda_id == null)
+	{
+		return <div> Loading.. </div>
+	}
+
+	const mapTasks = agenda.categories
+		.map((category) => {
+			return category.tasks;
+		})
+		.reduce( (previous, current) => { 
+			return previous.concat(current)
+		}, [])
+		.filter((task) => task != null && task.location != null)
+		.map((task) => {
+			return <div key={task.task_id} lat={task.location.lat} lng={task.location.lng}
+			style={{width:"20px", height:"20px", background:"red"}}>
+				{task.task}
+			</div>			
+		});
+	
 	return (
 		<div>
 			<div>
@@ -13,18 +34,19 @@ function Agenda({ agenda = {}, doAddCategory, doAddTask }) {
 						return <Category doAddTask={doAddTask} className="category" key={category.category_id} category={category}/>;
 					})
 				}
-				{categoryNameInput}
-				
-				<input type="button" value=">Add Category" onClick={() => {categoryNameInput = 0; doAddCategory("dad", agenda.agenda_id)}}/>
+				<input id={'catAdd_' + agenda.agenda_id} />
+				<input type="button" value=">Add Category" onClick={() => {
+					const category = document.getElementById('catAdd_' + agenda.agenda_id);
+					doAddCategory(category.value, agenda.agenda_id)
+					category.value = null;
+				}}/>
 			</div>
-			<div style={{height:"300px"}}>
+			<div style={{height:"500px"}}>
 				<GoogleMap
 					bootstrapURLKeys={{key: "AIzaSyC44lwcJ4H7tARXpxg64qsFZeU258jKJJw"}}
 					center={center}
-					zoom={9}>
-					<div style={{height:"200px"}} lat={59.955413} lng={30.337844}>
-						A marker!
-					</div>
+					zoom={13}>
+					{mapTasks}
 				</GoogleMap>
 			</div>
 		</div>

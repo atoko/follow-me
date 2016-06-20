@@ -3,11 +3,12 @@ import Task from './../Task';
 
 function Category({category = {}, doAddTask}) {
 	let { tasks } = category;	
-	var categoryNameInput = <input id={"catAdd_" + category.category_id} />;
+	var categoryNameInput = <input id={"taskAdd_" + category.category_id} />;
 	var categoryAddButton = 			
 		<input type="button" value=">Add Task" onClick={() => {
-				const task = document.getElementById('catAdd_' + category.category_id).value;
-				doAddTask(task, category.category_id)
+				const task = document.getElementById('taskAdd_' + category.category_id);
+				doAddTask(task.value, category.category_id)
+				task.value = null;
 			}
 		}/>
 	return (
