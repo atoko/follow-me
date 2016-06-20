@@ -42,7 +42,7 @@ const data = {
           "task_id": 2,
           "category_id": 3,
           "task": "rawr XD",
-          "location": null,
+          "location": "",
           "file_id": null,
           "visited": null
         },

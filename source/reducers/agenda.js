@@ -10,6 +10,8 @@ export default function(state = initialState, action) {
       return addCategory(state, action);
     case actionTypes.TASK_ADD:
       return addTask(state, action);
+    case actionTypes.TASK_UPDATE:
+      return updateTask(state, action);
   }
   return state;
 }
@@ -29,9 +31,27 @@ function addTask(state, action) {
   const { task } = action;
   let category = {};
   state.categories.forEach(function(element) {
-    if (element.category_id == task.category_id)
+    if (element.category_id == task.category_id) 
     {
       element.tasks.push(task);
+    }
+  }, this);
+  
+  return { ...state };
+}
+
+function updateTask(state, action) {
+  const { task } = action;
+  let category = {};
+  state.categories.forEach(function(category) {
+    if (category.category_id == task.category_id)
+    {
+        category.tasks.forEach(function(t) {
+        if (t.task_id == task.task_id)
+        {
+          category.tasks[category.tasks.indexOf(t)] = task;
+        }
+      }, this);
     }
   }, this);
   

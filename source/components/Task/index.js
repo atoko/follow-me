@@ -1,7 +1,7 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as actions from '../../actions';
-import Category from './presenter';
+import Task from './presenter';
 
 function mapStateToProps(state) {
   return {}
@@ -9,8 +9,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    doAddTask: bindActionCreators(actions.addTask, dispatch),
-    doAddTaskDetail: bindActionCreators(actions.addTaskDetail, dispatch)
+    updateTask: bindActionCreators(actions.updateTask, dispatch)
   };
 }
-export default Category;
+export default connect(mapStateToProps, mapDispatchToProps)(Task);

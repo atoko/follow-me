@@ -21,6 +21,13 @@ export function newTask(task) {
   };
 };
 
+export function setTask(task) {
+  return {
+    type: actionTypes.TASK_UPDATE,
+    task
+  };
+};
+
 
 export function addCategory(name, agenda_id)
 {
@@ -47,6 +54,16 @@ export function addTask(name, category_id)
       };        
       task["task_id"] = (new Date()).getTime(); 
       dispatch(newTask(task));
+    }, 1);
+  }).bind(this);
+}
+
+export function updateTask(task, updates)
+{
+  task = {...task, ...updates};
+  return (dispatch => {
+    setTimeout(function() {
+      dispatch(setTask(task));
     }, 1);
   }).bind(this);
 }
