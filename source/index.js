@@ -60,7 +60,9 @@ fetch('http://localhost:3000/agenda/1', {
 	mode: 'cors'
 })
   .then((response) => {return response.json()})
-  .then((json) => {store.dispatch(actions.setAgenda(json));});
+  .then((json) => {
+     store.dispatch(actions.setAgenda(json));
+  });
 
 const history = syncHistoryWithStore(browserHistory, store);
 

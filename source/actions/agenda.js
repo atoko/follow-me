@@ -76,13 +76,23 @@ export function addTask(name, category_id)
       })
   }).bind(this);
 }
-
+const root = 'http://localhost:3000';
 export function updateTask(task, updates)
 {
-  task = {...task, ...updates};
   return (dispatch => {
-    setTimeout(function() {
-      dispatch(setTask(task));
-    }, 1);
+    task = {...task, ...updates};
+    fetch(root + `/task/${task.task_id}`, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ task }),
+      mode: 'cors'
+    })
+      .then((response) => response.json() )
+      .then((task) => { debugger;
+        dispatch(setTask(task));        
+      } )
   }).bind(this);
 }
