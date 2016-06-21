@@ -9,7 +9,7 @@ class Task extends React.Component
 		const data = reader.readAsDataURL(file);
 		reader.onload = function(event) 
 		{
-			this.props.updateTask(this.props.task, {image: event.currentTarget.result});
+			this.props.updateTask(this.props.task, {file_id: event.currentTarget.result});
 			//const img = document.getElementById("taskImg_" + task.task_id);
 			//img.src = event.currentTarget.result;
 			//console.log(img);
@@ -38,8 +38,8 @@ class Task extends React.Component
 
 		if (task != null)
 		{
-			const image = (task.image != null) ? 
-				<img src={task.image}/> : 
+			const image = (task.file_id != null) ? 
+				<img src={task.file_id}/> : 
 				<input type="file" onChange={(f) => {this.fileUpload(f);}}/>;
 
 			const location = (task.location != null) ?
