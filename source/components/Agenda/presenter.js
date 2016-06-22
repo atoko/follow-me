@@ -25,6 +25,15 @@ function Agenda({ agenda = {}, doAddCategory, doAddTask }) {
 				{task.task}
 			</div>			
 		});
+
+	const map = <div style={{height:"500px"}}>
+				<GoogleMap
+					bootstrapURLKeys={{key: "AIzaSyC44lwcJ4H7tARXpxg64qsFZeU258jKJJw"}}
+					center={center}
+					zoom={13}>
+					{mapTasks}
+				</GoogleMap>
+			</div>
 	
 	return (
 		<div>
@@ -34,20 +43,12 @@ function Agenda({ agenda = {}, doAddCategory, doAddTask }) {
 						return <Category doAddTask={doAddTask} className="category" key={category.category_id} category={category}/>;
 					})
 				}
-				<input id={'catAdd_' + agenda.agenda_id} />
+				<input id={'catAdd_' + agenda.agenda_id} type="text"/>
 				<input type="button" value=">Add Category" onClick={() => {
 					const category = document.getElementById('catAdd_' + agenda.agenda_id);
 					doAddCategory(category.value, agenda.agenda_id)
 					category.value = null;
 				}}/>
-			</div>
-			<div style={{height:"500px"}}>
-				<GoogleMap
-					bootstrapURLKeys={{key: "AIzaSyC44lwcJ4H7tARXpxg64qsFZeU258jKJJw"}}
-					center={center}
-					zoom={13}>
-					{mapTasks}
-				</GoogleMap>
 			</div>
 		</div>
 	);

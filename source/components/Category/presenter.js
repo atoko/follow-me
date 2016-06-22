@@ -3,7 +3,7 @@ import Task from './../Task';
 
 function Category({category = {}, doAddTask}) {
 	let { tasks } = category;	
-	var categoryNameInput = <input id={"taskAdd_" + category.category_id} />;
+	var categoryNameInput = <input id={"taskAdd_" + category.category_id} type="text" />;
 	var categoryAddButton = 			
 		<input type="button" value=">Add Task" onClick={() => {
 				const task = document.getElementById('taskAdd_' + category.category_id);
@@ -14,7 +14,7 @@ function Category({category = {}, doAddTask}) {
 	return (
 		<div>
 			<p/>
-			<div> {category.category} </div>
+			<div>Category: {category.category} </div>
 			{tasks.map((task) => {return <Task task={task} key={task.task_id} />})	}		
 			{categoryNameInput}
 			{categoryAddButton}

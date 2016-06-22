@@ -45,11 +45,12 @@ class Task extends React.Component
 			const location = (task.location != null) ?
 					<div>{JSON.stringify(task.location)}</div> :
 					<div>
-						<input id={"taskAddLoc_" + task.task_id}/>
+						<input id={"taskAddLoc_" + task.task_id} type="text"/>
 						<input type="button" value="Add location" onClick={() => this.addressUpload()}/> 
 					</div>;
 			html = 
-				<div>-->{task.task}
+				<div>Waypoint: {task.task}
+					<br/>
 					{image}
 					{location}
 				</div>;
