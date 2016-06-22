@@ -36,7 +36,7 @@ function Agenda({ agenda = {}, doAddCategory, doAddTask }) {
 			</div>
 	
 	return (
-		<div>
+		<div className="content">
 			<div>
 				{
 					agenda.categories.map((category) => {
