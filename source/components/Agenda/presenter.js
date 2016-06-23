@@ -34,21 +34,31 @@ function Agenda({ agenda = {}, doAddCategory, doAddTask }) {
 					{mapTasks}
 				</GoogleMap>
 			</div>
-	
+	const onAddClick = () => {
+		const category = document.getElementById('catAdd_' + agenda.agenda_id);
+		doAddCategory(category.value, agenda.agenda_id)
+		category.value = null;
+	};
+
 	return (
-		<div className="content">
+		<div>
 			<div>
+				<div className="container box level">
+
+					<span className="title level-left">
+						NYC
+					</span>				
+					<span className="control has-addons level-right">
+						<input className = "input is-warning" id={'catAdd_' + agenda.agenda_id} type="text"/>
+						<input className = "button is-warning" type="button" value="New Category" onClick={onAddClick}/>
+					</span>	
+				</div>
+				{map}
 				{
 					agenda.categories.map((category) => {
-						return <Category doAddTask={doAddTask} className="category" key={category.category_id} category={category}/>;
+						return <Category doAddTask={doAddTask} key={category.category_id} category={category}/>;
 					})
 				}
-				<input id={'catAdd_' + agenda.agenda_id} type="text"/>
-				<input type="button" value=">Add Category" onClick={() => {
-					const category = document.getElementById('catAdd_' + agenda.agenda_id);
-					doAddCategory(category.value, agenda.agenda_id)
-					category.value = null;
-				}}/>
 			</div>
 		</div>
 	);

@@ -44,16 +44,35 @@ class Task extends React.Component
 
 			const location = (task.location != null) ?
 					<div>{JSON.stringify(task.location)}</div> :
-					<div>
-						<input id={"taskAddLoc_" + task.task_id} type="text"/>
-						<input type="button" value="Add location" onClick={() => this.addressUpload()}/> 
+					<div className="control">
+						<input className = "input is-success" id={"taskAddLoc_" + task.task_id} type="text"/>
+						<input className = "button is-success" type="button" value="Add location" onClick={() => this.addressUpload()}/> 
 					</div>;
 			html = 
-				<div>Waypoint: {task.task}
-					<br/>
-					{image}
-					{location}
-				</div>;
+<div className="card column is-one-third">
+  <div className="card-image">
+    <figure className="image is-4by3">
+      {image}
+    </figure>
+  </div>
+  <div className="card-content">
+    <div className="media">
+      <div className="media-left">
+        <figure className="image is-32x32">
+          <img src="http://placehold.it/64x64" alt="Image" />
+        </figure>
+      </div>
+      <div className="media-content">
+        <p className="title is-5">{task.task}</p>
+        <p className="subtitle is-6">{location}</p>
+      </div>
+    </div>
+
+    <div className="content">
+      <small>11:09 PM - 1 Jan 2016</small>
+    </div>
+  </div>
+</div>;
 		}
 		return html;
 	}

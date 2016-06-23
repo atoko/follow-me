@@ -91,7 +91,7 @@ export function updateTask(task, updates)
       mode: 'cors'
     })
       .then((response) => response.json() )
-      .then((task) => { debugger;
+      .then((task) => {
         dispatch(setTask(task));        
       } )
   }).bind(this);
