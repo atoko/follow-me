@@ -2,6 +2,17 @@ import React from 'react';
 import Category from './../Category';
 import GoogleMap from 'google-map-react';
 
+function hashStringToColor(str) {
+  var hash = 5381;
+  for (var i = 0; i < str.length; i++) {
+    hash = ((hash << 5) + hash) + str.charCodeAt(i); /* hash * 33 + c */
+  }
+  var r = (hash & 0xFF0000) >> 16;
+  var g = (hash & 0x00FF00) >> 8;
+  var b = hash & 0x0000FF;
+  return "#" + ("0" + r.toString(16)).substr(-2) + ("0" + g.toString(16)).substr(-2) + ("0" + b.toString(16)).substr(-2);
+}
+
 function Agenda({ agenda = {}, doAddCategory, doAddTask }) {
 	let categoryNameInput = <input />;
 	const center = {"lat":40.7780464,"lng":-73.97867859999997};
@@ -11,18 +22,26 @@ function Agenda({ agenda = {}, doAddCategory, doAddTask }) {
 		return <div> Loading.. </div>
 	}
 
-	const boxStyle = {
-		borderRadius:"3px", 
-		backgroundColor:"white", 
-		border:"solid",
-		width:28,
-		height:28,
-		marginTop:"-14px",
-    	marginLeft:"-14px",
-		overflow: "hidden"
+	const boxStyle = function(category) {
+		return {
+			borderRadius:"3px", 
+			backgroundColor:hashStringToColor(category), 
+			border:"solid" + hashStringToColor(category),
+			width:'100%',
+			height:'100%',
+			marginTop:"-14px",
+			marginLeft:"-14px",
+			display: 'flex'
+		}
 	};
 
-	const textStyle = {marginLeft:"3px", fontSize:14, color:"red"};
+	const textStyle = {
+		marginLeft:"3px",
+		fontWeight: 'bold',
+		fontSize:11,
+		textShadow: "-1px -1px 0 #000,    1px -1px 0 #000,    -1px 1px 0 #000,     1px 1px 0 #000",
+		color:'white',
+	 	width:'300px'};
 
 	const onMapClick = (task_id) =>
 	{
@@ -39,7 +58,7 @@ function Agenda({ agenda = {}, doAddCategory, doAddTask }) {
 		.filter((task) => task != null && task.location != null)
 		.map((task) => {
 			return <div onClick = {() => { onMapClick(task.task_id); }} key={task.task_id} lat={task.location.lat} lng={task.location.lng}
-			style={boxStyle}>
+			style={boxStyle(task.ui.category)}>
 				<a hRef={"#" + task.task_id} style={textStyle}>{task.task}
 				</a>
 			</div>			
@@ -68,8 +87,8 @@ function Agenda({ agenda = {}, doAddCategory, doAddTask }) {
 						NYC
 					</span>				
 					<span className="control has-addons level-right">
-						<input className = "input is-warning" id={'catAdd_' + agenda.agenda_id} type="text"/>
-						<input className = "button is-warning" type="button" value="New Category" onClick={onAddClick}/>
+						<input className = "input is-primary" id={'catAdd_' + agenda.agenda_id} type="text"/>
+						<input className = "button is-primary" type="button" value="Add Category" onClick={onAddClick}/>
 					</span>	
 				</div>
 				{map}

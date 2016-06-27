@@ -79,8 +79,11 @@ export function addTask(name, category_id)
 }
 export function updateTask(task, updates)
 {
+  var newTask = task;
+  delete newTask.ui;
+  
   return (dispatch => {
-    task = {...task, ...updates};
+    newTask = {...newTask, ...updates};
     fetch(root + `/task/${task.task_id}`, {
       method: 'POST',
       headers: {
@@ -92,7 +95,7 @@ export function updateTask(task, updates)
     })
       .then((response) => response.json() )
       .then((task) => {
-        dispatch(setTask(task));        
+        dispatch(setTask(newTask));        
       } )
   }).bind(this);
 }

@@ -43,33 +43,19 @@ class Task extends React.Component
 				<input type="file" onChange={(f) => {this.fileUpload(f);}}/>;
 
 			const location = (task.location != null) ?
-					<div>{JSON.stringify(task.location)}</div> :
+					<div>{""}</div> :
 					<div className="control has-addons">
 						<input className = "input is-success" id={"taskAddLoc_" + task.task_id} type="text"/>
 						<input className = "button is-success" type="button" value="Add location" onClick={() => this.addressUpload()}/> 
 					</div>;
 			html = 
 <div className="card column is-one-third" id={task.task_id}>
-  <div className="card-image">
-    <figure className="image is-4by3">
-      {image}
-    </figure>
-  </div>
   <div className="card-content">
     <div className="media">
-      <div className="media-left">
-        <figure className="image is-32x32">
-          <img src="http://placehold.it/64x64" alt="Image" />
-        </figure>
-      </div>
       <div className="media-content">
         <p className="title is-5">{task.task}</p>
         <p className="subtitle is-6">{location}</p>
       </div>
-    </div>
-
-    <div className="content">
-      <small>11:09 PM - 1 Jan 2016</small>
     </div>
   </div>
 </div>;
