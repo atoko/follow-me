@@ -1,4 +1,5 @@
 import * as actionTypes from '../constants/actionTypes';
+const root = 'https://waypoint-oracle.herokuapp.com';
 
 export function setAgenda(agenda) {
   return {
@@ -32,7 +33,7 @@ export function setTask(task) {
 export function addCategory(name, agenda_id)
 {
   return (dispatch => {
-    fetch(`http://localhost:3000/category/new/${agenda_id}`, {
+    fetch(`${root}/category/new/${agenda_id}`, {
       method: 'POST',  
       headers: {
         'Accept': 'application/json',
@@ -56,7 +57,7 @@ export function addCategory(name, agenda_id)
 export function addTask(name, category_id)
 {
   return (dispatch => {
-    fetch(`http://localhost:3000/task/new/${category_id}`, {
+    fetch(`${root}/task/new/${category_id}`, {
       method: 'POST',  
       headers: {
         'Accept': 'application/json',
@@ -76,7 +77,6 @@ export function addTask(name, category_id)
       })
   }).bind(this);
 }
-const root = 'http://localhost:3000';
 export function updateTask(task, updates)
 {
   return (dispatch => {

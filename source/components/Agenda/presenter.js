@@ -11,6 +11,24 @@ function Agenda({ agenda = {}, doAddCategory, doAddTask }) {
 		return <div> Loading.. </div>
 	}
 
+	const boxStyle = {
+		borderRadius:"3px", 
+		backgroundColor:"white", 
+		border:"solid",
+		width:28,
+		height:28,
+		marginTop:"-14px",
+    	marginLeft:"-14px",
+		overflow: "hidden"
+	};
+
+	const textStyle = {marginLeft:"3px", fontSize:14, color:"red"};
+
+	const onMapClick = (task_id) =>
+	{
+		document.getElementById(task_id).scrollIntoView();		
+	}
+
 	const mapTasks = agenda.categories
 		.map((category) => {
 			return category.tasks;
@@ -20,15 +38,16 @@ function Agenda({ agenda = {}, doAddCategory, doAddTask }) {
 		}, [])
 		.filter((task) => task != null && task.location != null)
 		.map((task) => {
-			return <div key={task.task_id} lat={task.location.lat} lng={task.location.lng}
-			style={{width:"20px", height:"20px", background:"red"}}>
-				{task.task}
+			return <div onClick = {() => { onMapClick(task.task_id); }} key={task.task_id} lat={task.location.lat} lng={task.location.lng}
+			style={boxStyle}>
+				<a hRef={"#" + task.task_id} style={textStyle}>{task.task}
+				</a>
 			</div>			
 		});
 
 	const map = <div style={{height:"500px"}}>
 				<GoogleMap
-					bootstrapURLKeys={{key: "AIzaSyC44lwcJ4H7tARXpxg64qsFZeU258jKJJw"}}
+					bootstrapURLKeys={{key: "AIzaSyDDcfEVg23HT3XKP50OtYbNza1GIJC6OXk"}}
 					center={center}
 					zoom={13}>
 					{mapTasks}

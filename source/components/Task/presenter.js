@@ -44,12 +44,12 @@ class Task extends React.Component
 
 			const location = (task.location != null) ?
 					<div>{JSON.stringify(task.location)}</div> :
-					<div className="control">
+					<div className="control has-addons">
 						<input className = "input is-success" id={"taskAddLoc_" + task.task_id} type="text"/>
 						<input className = "button is-success" type="button" value="Add location" onClick={() => this.addressUpload()}/> 
 					</div>;
 			html = 
-<div className="card column is-one-third">
+<div className="card column is-one-third" id={task.task_id}>
   <div className="card-image">
     <figure className="image is-4by3">
       {image}

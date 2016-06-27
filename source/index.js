@@ -55,7 +55,8 @@ const data = {
 }
 
 const store = configureStore();
-fetch('http://localhost:3000/agenda/1', {
+const root = 'https://waypoint-oracle.herokuapp.com';
+fetch(`${root}/agenda/1`, {
 	method: 'GET', 
 	mode: 'cors'
 })
