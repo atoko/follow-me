@@ -24,24 +24,23 @@ function Agenda({ agenda = {}, doAddCategory, doAddTask }) {
 
 	const boxStyle = function(category) {
 		return {
-			borderRadius:"3px", 
+			borderRadius:"4px", 
+			width: '8px',
+			height: '8px',
 			backgroundColor:hashStringToColor(category), 
 			border:"solid" + hashStringToColor(category),
-			width:'100%',
-			height:'100%',
 			marginTop:"-14px",
 			marginLeft:"-14px",
-			display: 'flex'
+			whiteSpace: 'nowrap'
 		}
 	};
 
 	const textStyle = {
 		marginLeft:"3px",
 		fontWeight: 'bold',
-		fontSize:11,
+		fontSize:12,
 		textShadow: "-1px -1px 0 #000,    1px -1px 0 #000,    -1px 1px 0 #000,     1px 1px 0 #000",
-		color:'white',
-	 	width:'300px'};
+		color:'#F2f2F8'};
 
 	const onMapClick = (task_id) =>
 	{
@@ -50,7 +49,7 @@ function Agenda({ agenda = {}, doAddCategory, doAddTask }) {
 
 	const mapTasks = agenda.categories
 		.map((category) => {
-			return category.tasks;
+			return category.tasks.map((task) => {return { ...task, category: category.category}});
 		})
 		.reduce( (previous, current) => { 
 			return previous.concat(current)
@@ -58,17 +57,18 @@ function Agenda({ agenda = {}, doAddCategory, doAddTask }) {
 		.filter((task) => task != null && task.location != null)
 		.map((task) => {
 			return <div onClick = {() => { onMapClick(task.task_id); }} key={task.task_id} lat={task.location.lat} lng={task.location.lng}
-			style={boxStyle(task.ui.category)}>
+			style={boxStyle(task.category)}>
 				<a hRef={"#" + task.task_id} style={textStyle}>{task.task}
 				</a>
 			</div>			
 		});
 
-	const map = <div style={{height:"500px"}}>
+	const map = <div id={"mapDiv"} style={{height:"500px"}}>
 				<GoogleMap
 					bootstrapURLKeys={{key: "AIzaSyDDcfEVg23HT3XKP50OtYbNza1GIJC6OXk"}}
 					center={center}
-					zoom={13}>
+					zoom={13}
+					onTouch={() => {alert("hey");}}>
 					{mapTasks}
 				</GoogleMap>
 			</div>

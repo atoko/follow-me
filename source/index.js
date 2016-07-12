@@ -80,3 +80,11 @@ ReactDOM.render(
   </Provider>,
   document.getElementById('app')
 );
+
+setTimeout(() => {
+  document.getElementById('mapDiv').addEventListener('touchmove', function(e) {
+
+          e.preventDefault();
+
+  }, false) 
+}, 5000);

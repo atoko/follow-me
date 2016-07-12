@@ -35,10 +35,11 @@ function Category({category = {}, doAddTask}) {
 			<p/>
 			<div className="hero">
 				<div className="hero-body ">
-				<div style={{
+				<a href='#mapDiv'> <div style={{
 					backgroundColor:color,
 					height:'20px',
 					marginBottom: '4px'}}></div>
+				</a>
 					<div className="container">
 						<h2 className = "title">{category.category}
 							<span className="control has-addons is-pulled-right">

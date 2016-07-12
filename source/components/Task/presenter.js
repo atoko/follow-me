@@ -48,13 +48,14 @@ class Task extends React.Component
 						<input className = "input is-success" id={"taskAddLoc_" + task.task_id} type="text"/>
 						<input className = "button is-success" type="button" value="Add location" onClick={() => this.addressUpload()}/> 
 					</div>;
+			const googleString = `http://www.google.com/?q=${task.task.replace(' ', '+')}`;
 			html = 
 <div className="card column is-one-third" id={task.task_id}>
   <div className="card-content">
     <div className="media">
       <div className="media-content">
-        <p className="title is-5">{task.task}</p>
-        <p className="subtitle is-6">{location}</p>
+        <a href={googleString} target="_blank" className="title is-5">{task.task}</a>
+        <p className="subtitle is-2">{location}</p>
       </div>
     </div>
   </div>
