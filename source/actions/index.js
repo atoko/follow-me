@@ -1,8 +1,11 @@
 import { setAgenda, addCategory, addTask, updateTask } from './agenda';
+import { setPortals, votePortal } from './portal';
 
 export {
   setAgenda,
   addCategory,
   addTask,
-  updateTask
+  updateTask,
+  setPortals,
+  votePortal
 };

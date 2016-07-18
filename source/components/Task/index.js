@@ -9,7 +9,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    updateTask: bindActionCreators(actions.updateTask, dispatch)
+    updateTask: bindActionCreators(actions.updateTask, dispatch),
+    votePortal: bindActionCreators(actions.votePortal, dispatch)
   };
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Task);

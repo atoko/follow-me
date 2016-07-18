@@ -9,60 +9,15 @@ import App from './components/App';
 import Agenda from './components/Agenda';
 import 'whatwg-fetch';
 
-const data = {
-  "agenda_id": 1,
-  "agenda": "nyc",
-  "categories": [
-    {
-      "category_id": 1,
-      "agenda_id": 1,
-      "category": "Food",
-      "tasks": [
-        {
-          "task_id": 1,
-          "category_id": 1,
-          "task": "Alice's Teashop",
-          "location": {"lat":40.7780464,"lng":-73.97867859999997},
-          "file_id": null,
-          "visited": null
-        }
-      ]
-    },
-    {
-      "category_id": 3,
-      "agenda_id": 1,
-      "category": "Stores",
-      "tasks": [
-        {
-          "task_id": 2,
-          "category_id": 3,
-          "task": "IKEA",
-          "location": {"lat":33.093868,"lng":-96.82122070000003},
-          "file_id": null,
-          "visited": null
-        },
-        {
-          "task_id": 4,
-          "category_id": 3,
-          "task": "Whataburger",
-          "location": {"lat":32.9101175,"lng":-96.87236999999999},
-          "file_id": null,
-          "visited": null
-        }
-      ]
-    }
-  ]
-}
-
 const store = configureStore();
 const root = 'https://waypoint-oracle.herokuapp.com';
-fetch(`${root}/agenda/1`, {
+fetch(`${root}/portals/18459600/66744200`, {
 	method: 'GET', 
 	mode: 'cors'
 })
   .then((response) => {return response.json()})
   .then((json) => {
-     store.dispatch(actions.setAgenda(json));
+     store.dispatch(actions.setPortals(json));
   });
 
 const history = syncHistoryWithStore(browserHistory, store);
@@ -80,6 +35,17 @@ ReactDOM.render(
   </Provider>,
   document.getElementById('app')
 );
+
+global.hashStringToColor = function(str) {
+  var hash = 5381;
+  for (var i = 0; i < str.length; i++) {
+    hash = ((hash << 5) + hash) + str.charCodeAt(i); /* hash * 33 + c */
+  }
+  var r = (hash & 0xFF0000) >> 16;
+  var g = (hash & 0x00FF00) >> 8;
+  var b = hash & 0x0000FF;
+  return "#" + ("0" + r.toString(16)).substr(-2) + ("0" + g.toString(16)).substr(-2) + ("0" + b.toString(16)).substr(-2);
+}
 
 setTimeout(() => {
   document.getElementById('mapDiv').addEventListener('touchmove', function(e) {

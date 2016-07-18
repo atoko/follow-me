@@ -4,14 +4,15 @@ import * as actions from '../../actions';
 import Agenda from './presenter';
 
 function mapStateToProps(state) {
-  const agenda = state.agenda;
+  const portal = state.portal;
   return {
-    agenda
+    portal
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
+    doSetPortals: bindActionCreators(actions.setPortals, dispatch),
     doAddTask: bindActionCreators(actions.addTask, dispatch),
     doAddCategory: bindActionCreators(actions.addCategory, dispatch)
   };

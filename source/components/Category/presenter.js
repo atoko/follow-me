@@ -1,35 +1,24 @@
 import React from 'react';
 import Task from './../Task';
 
-function djb2(str){
-  var hash = 5381;
-  for (var i = 0; i < str.length; i++) {
-    hash = ((hash << 5) + hash) + str.charCodeAt(i); /* hash * 33 + c */
-  }
-  return hash;
-}
+function Category({portal = {}, type_id}) {
+	let { portals } = portal;
 
-function hashStringToColor(str) {
-  var hash = djb2(str);
-  var r = (hash & 0xFF0000) >> 16;
-  var g = (hash & 0x00FF00) >> 8;
-  var b = hash & 0x0000FF;
-  return "#" + ("0" + r.toString(16)).substr(-2) + ("0" + g.toString(16)).substr(-2) + ("0" + b.toString(16)).substr(-2);
-}
+	const styles = {
+		'1': 'SPICYMAYO',
+		'2': 'POKESTOP',
+		'3': 'GYM',
+		'4': 'DORMANT'
+	}
+	const color = hashStringToColor(styles[type_id]);
 
-function Category({category = {}, doAddTask}) {
-	let { tasks } = category;	
-	var categoryNameInput = <input className="input is-primary" id={"taskAdd_" + category.category_id} type="text" />;
-	var categoryAddButton = 			
-		<input className="button is-primary" type="button" value="+" onClick={() => {
-				const task = document.getElementById('taskAdd_' + category.category_id);
-				doAddTask(task.value, category.category_id)
-				task.value = null;
-			}
-		}/>
-
-	const color = hashStringToColor(category.category);
-
+	const categories = {
+		'1': 'Undetermined',
+		'2': 'PokéStop',
+		'3': 'Pokémon Gym',
+		'4': 'Disabled'
+	};
+	var i = 0;
 	return (
 		<div>
 			<p/>
@@ -41,17 +30,15 @@ function Category({category = {}, doAddTask}) {
 					marginBottom: '4px'}}></div>
 				</a>
 					<div className="container">
-						<h2 className = "title">{category.category}
-							<span className="control has-addons is-pulled-right">
-								{categoryNameInput}
-								{categoryAddButton}
-							</span>
-						</h2>
+					<span className = "title"> 
+						{categories[type_id]}
+						</span>
 					</div>
 				</div>
 			</div>
+			
 			<div className="columns is-multiline">
-				{tasks.map((task) => {return <Task task={task} key={task.task_id} />})	}		
+				{portal.map((task) => {i = i + 1; return <Task task={task} key={task.name + i} />})	}		
 			</div>
 		</div>
 	)

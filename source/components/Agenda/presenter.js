@@ -1,18 +1,11 @@
 import React from 'react';
+import ReactDOM from 'react-dom'
 import Category from './../Category';
-import GoogleMap from 'google-map-react';
+import Map from './../Map';
 
-function hashStringToColor(str) {
-  var hash = 5381;
-  for (var i = 0; i < str.length; i++) {
-    hash = ((hash << 5) + hash) + str.charCodeAt(i); /* hash * 33 + c */
-  }
-  var r = (hash & 0xFF0000) >> 16;
-  var g = (hash & 0x00FF00) >> 8;
-  var b = hash & 0x0000FF;
-  return "#" + ("0" + r.toString(16)).substr(-2) + ("0" + g.toString(16)).substr(-2) + ("0" + b.toString(16)).substr(-2);
-}
-var defaultCenter = {"lat":40.7780464,"lng":-73.97867859999997};
+const root = 'https://waypoint-oracle.herokuapp.com';
+
+var defaultCenter = {"lat":18.45960,"lng":-66.7442464};
 
 class Agenda extends React.Component
 {
@@ -22,96 +15,116 @@ class Agenda extends React.Component
 	}
 	render() {
 
-		const agenda = this.props.agenda;
+		const portal = this.props.portal;
 		const center = this.state.center || defaultCenter;
 
-		if (agenda.agenda_id == null)
+		if (portal.portals == null || portal.portals.length == 0)
 		{
 			return <div> Loading.. </div>
 		}
 
-		const boxStyle = function(category) {
-			return {
-				borderRadius:"4px", 
-				width: '8px',
-				height: '8px',
-				backgroundColor:hashStringToColor(category), 
-				border:"solid" + hashStringToColor(category),
-				marginTop:"-14px",
-				marginLeft:"-14px",
-				whiteSpace: 'nowrap'
-			}
-		};
-
-		const textStyle = {
-			marginLeft:"3px",
-			fontWeight: 'bold',
-			fontSize:12,
-			textShadow: "-1px -1px 0 #000,    1px -1px 0 #000,    -1px 1px 0 #000,     1px 1px 0 #000",
-			color:'#F2f2F8'};
-
-		const onMapClick = (task_id) =>
+		var lastLocation = null;
+		const mapOnChange = function(args)
 		{
-			document.getElementById(task_id).scrollIntoView();		
-		}
+			const coordinates = args.center;
+			lastLocation = coordinates;
 
-		const mapTasks = agenda.categories
-			.map((category) => {
-				return category.tasks.map((task) => {return { ...task, category: category.category}});
+			//Need to cluster more
+			fetch(`${root}/portals/${Math.floor(coordinates.lat * 100000)}/${Math.floor(coordinates.lng * 100000)}`, {
+				method: 'GET', 
+				mode: 'cors'
 			})
-			.reduce( (previous, current) => { 
-				return previous.concat(current)
-			}, [])
-			.filter((task) => task != null && task.location != null)
-			.map((task) => {
-				return <div onClick = {() => { this.props.onMapClick(task.task_id); }} key={task.task_id} lat={task.location.lat} lng={task.location.lng}
-				style={boxStyle(task.category)}>
-					<a hRef={"#" + task.task_id} style={textStyle}>{task.task}
-					</a>
-				</div>			
-			});
+			.then((response) => {return response.json()})
+			.then((json) => {
+				this.props.doSetPortals(json);
+			});			
+		}.bind(this);
 
-		const map = <div id={"mapDiv"} style={{height:"500px"}}>
-					<GoogleMap
-						bootstrapURLKeys={{key: "AIzaSyDDcfEVg23HT3XKP50OtYbNza1GIJC6OXk"}}
-						center={center}
-						zoom={13}>
-						{mapTasks}
-					</GoogleMap>
-				</div>
-
-		const onAddClick = () => {
+		const onGetLocation = () => {
 			navigator.geolocation.getCurrentPosition(function(p){
-				console.log(p);
 				this.setState({center: {"lat":p.coords.latitude,"lng":p.coords.longitude}})
 			}.bind(this));
 		};
 
+		const onSetLocation = () => {
+			const address = ReactDOM.findDOMNode(this.refs.searchBox).value;
+			const geocoder = new google.maps.Geocoder();
+			const request = {
+				address
+			};
 
+			geocoder.geocode(request, function(c, cb) {
+				if (cb == "OK")
+				{
+					const location = c[0].geometry.location;
+					this.setState({center: {"lat":location.lat(),"lng":location.lng()}})					
+				}
+			}.bind(this));			
+		};
+
+		var categories = [<span key="_" />];
+		var status = <span></span>;
+		if (portal.portals.length != undefined)
+		{
+			status = <span>{portal.portals.length + ""}</span>;
+			var groupedCategories = {
+				1: [],
+				2: [],
+				3: [],
+				4: []
+			};
+			
+			portal.portals.forEach(function(element) {
+				groupedCategories[element.type_id].push(element);
+			}, this);
+
+			categories.push(<Category key={1} type_id={2} portal={groupedCategories[2]}></Category>);
+			categories.push(<Category key={2} type_id={3} portal={groupedCategories[3]}></Category>);
+			categories.push(<Category key={3} type_id={1} portal={groupedCategories[1]}></Category>);
+			categories.push(<Category key={4} type_id={4} portal={groupedCategories[4]}></Category>);
+		}
+		
 		return (
 			<div>
 				<div>
-					<div className="container box level">
-
-						<span className="title level-left">
-							<img src="/assets/m/webPKGO.png"/>
-							NYC
-						</span>				
-						<span className="control has-addons level-right">
-							<input className = "input is-primary" id={'catAdd_' + agenda.agenda_id} type="text"/>
-							<input className = "button is-primary" type="button" value="Add Category" onClick={onAddClick}/>
-						</span>	
+					<Map center={this.state.center} onChange={mapOnChange} items={portal.portals}/>
+					<div className="box level">
+						<div className="level-left">
+							<button className="button is-primary level-item" onClick={onGetLocation}><span className="fa fa-location-arrow"> </span></button>
+						</div>
+						<div className="level-right">
+							<div className="control has-addons">
+								<SearchBox ref="searchBox" />
+								<button className="button is-primary" onClick={onSetLocation}><span className="fa  fa-search"></span></button>
+							</div>					
+						</div>						
 					</div>
-					{map}
-					{
-						agenda.categories.map((category) => {
-							return <Category doAddTask={this.props.doAddTask} key={category.category_id} category={category}/>;
-						})
-					}
+					{categories}
 				</div>
 			</div>
 		);
 	}
 }
-
+class SearchBox extends React.Component {
+	constructor() {
+		super();
+		this.onPlacesChanged = () => {
+			if (this.props.onPlacesChanged) {
+				this.props.onPlacesChanged(this.searchBox.getPlaces());
+			}		
+		}
+		this.searchBox = null;
+	}
+	render() {
+		return <input ref="input" {...this.props} type="text" defaultValue="22"/>;
+	}
+	componentDidMount() {
+		var input = ReactDOM.findDOMNode(this.refs.input);
+		this.searchBox = new google.maps.places.SearchBox(input);
+		this.searchBox.addListener('places_changed', this.onPlacesChanged); 
+	}
+	componentWillUnmount() {
+		//this.searchBox.removeListener('places_changed', this.onPlacesChanged);
+	}
+}
 export default Agenda;

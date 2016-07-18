@@ -31,6 +31,10 @@ class Task extends React.Component
 			}
 		}.bind(this));
 	}
+	vote(event)
+	{
+		this.props.votePortal(this.props.task, {type_id: event.target.value});
+	}
 	render() 
 	{
 		const task = this.props.task;
@@ -38,27 +42,54 @@ class Task extends React.Component
 
 		if (task != null)
 		{
-			const image = (task.file_id != null) ? 
-				<img src={task.file_id}/> : 
-				<input type="file" onChange={(f) => {this.fileUpload(f);}}/>;
+			var buttonClass = function(value)
+			{
+				const css = "card-footer-item button ";
+				const selected = (task.vote && (value == task.vote.type_id)) ? "is-success is-medium" : "is-medium";
+				return css + selected;
+			}
 
-			const location = (task.location != null) ?
-					<div>{""}</div> :
-					<div className="control has-addons">
-						<input className = "input is-success" id={"taskAddLoc_" + task.task_id} type="text"/>
-						<input className = "button is-success" type="button" value="Add location" onClick={() => this.addressUpload()}/> 
-					</div>;
-			const googleString = `http://www.google.com/?q=${task.task.replace(' ', '+')}`;
+			const getImage = function(type_id)
+			{
+				switch (type_id) {
+					case 1:
+						return '';
+					case 2:
+						return 'pokestop';
+					case 3:
+						return 'gym';
+					case 4:
+						return 'disabled';
+				}
+			}
 			html = 
-<div className="card column is-one-third" id={task.task_id}>
-  <div className="card-content">
-    <div className="media">
-      <div className="media-content">
-        <a href={googleString} target="_blank" className="title is-5">{task.task}</a>
-        <p className="subtitle is-2">{location}</p>
-      </div>
-    </div>
-  </div>
+<div className="column is-one-quarter" id={task.name}>
+	<div style={{overflow:'hidden'}} className="card is-fullwidth">
+		<header className="card-header">
+			<p className="card-header-title">
+				{task.name}
+			</p>
+			<div className="image is-24x24 is-hidden-tablet">
+				<img className="is-32x32"  src={`/assets/m/${getImage(task.type_id)}.png`}/>			
+			</div>			
+			<div  className="card-header-title image is-24x24 is-hidden-mobile">
+				<img  className="is-32x32" src={`/assets/m/${getImage(task.type_id)}.png`}/>			
+			</div>
+		</header>
+		<footer className="card-footer  is-hidden-mobile"> 
+			<button className={buttonClass(2)} onClick={this.vote.bind(this)} value="2">
+				<div className="image is-24x24">
+					<img className="is-32x32"  src={`/assets/m/pokestop.png`}/>			
+				</div>					
+			</button>
+			<button className={buttonClass(3)} onClick={this.vote.bind(this)} value="3">
+				<div className="image is-24x24">
+					<img className="is-32x32"  src={`/assets/m/gym.png`}/>			
+				</div>					
+			</button>
+			<button className={buttonClass(4)} onClick={this.vote.bind(this)} value="4"><span className="fa fa-ban"> </span></button>
+		</footer>
+	</div>			
 </div>;
 		}
 		return html;
