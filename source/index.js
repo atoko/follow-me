@@ -11,6 +11,8 @@ import 'whatwg-fetch';
 
 const store = configureStore();
 const root = 'https://waypoint-oracle.herokuapp.com';
+
+/*
 fetch(`${root}/portals/18459600/66744200`, {
 	method: 'GET', 
 	mode: 'cors'
@@ -19,22 +21,12 @@ fetch(`${root}/portals/18459600/66744200`, {
   .then((json) => {
      store.dispatch(actions.setPortals(json));
   });
-
+*/
+navigator.geolocation.getCurrentPosition(function(p){
+    store.dispatch(actions.setCenter({"lat":p.coords.latitude,"lng":p.coords.longitude, "setOrigin": true}));
+});
 const history = syncHistoryWithStore(browserHistory, store);
 
-
-ReactDOM.render(
- <Provider store={store}>   
-  <Router history={history}>
-      <Route path="/" component={App}>
-        <IndexRoute component={Agenda} />
-        <Route path="/" component={Agenda} />
-
-      </Route>
-    </Router>
-  </Provider>,
-  document.getElementById('app')
-);
 
 global.hashStringToColor = function(str) {
   var hash = 5381;
@@ -49,8 +41,18 @@ global.hashStringToColor = function(str) {
 
 setTimeout(() => {
   document.getElementById('mapDiv').addEventListener('touchmove', function(e) {
-
           e.preventDefault();
-
   }, false) 
 }, 5000);
+
+
+ReactDOM.render(
+ <Provider store={store}>   
+  <Router history={history}>
+      <Route path="/" component={App}>
+        <IndexRoute component={Agenda} />
+      </Route>
+    </Router>
+  </Provider>,
+  document.getElementById('app')
+);

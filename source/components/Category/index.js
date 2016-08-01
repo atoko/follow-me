@@ -8,9 +8,6 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return {
-    doAddTask: bindActionCreators(actions.addTask, dispatch),
-    doAddTaskDetail: bindActionCreators(actions.addTaskDetail, dispatch)
-  };
+  return { };
 }
 export default Category;

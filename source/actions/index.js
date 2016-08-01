@@ -1,11 +1,11 @@
-import { setAgenda, addCategory, addTask, updateTask } from './agenda';
 import { setPortals, votePortal } from './portal';
+import { setFilter, setCenter, setDistance, setSelected } from './app';
 
 export {
-  setAgenda,
-  addCategory,
-  addTask,
-  updateTask,
   setPortals,
-  votePortal
+  votePortal,
+  setFilter,
+  setCenter,
+  setDistance,
+  setSelected
 };

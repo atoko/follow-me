@@ -1,11 +1,13 @@
 import React from 'react';
 
 function App({ children }) {
-  var header = <section className="hero is-primary is-medium">
+  var header = 
+<section className="hero is-primary is-medium">
   <div className="hero-head">
     <header className="nav">
       <div className="container">
         <div className="nav-left">
+<img alt="" height="89" src="../assets/m/webPKGO.png" width="64px" height="76px"/>        
           <a className="nav-item"> 
               <span className="title">Pokémap</span>
           </a>
@@ -46,9 +48,11 @@ function App({ children }) {
   </div>
 </section>
 
+
   return <main>
-      {header}
+    <div className="HolyGrail">
       {children}
+    </div>
     </main>;
 }
 

@@ -44,8 +44,8 @@ class Task extends React.Component
 		{
 			var buttonClass = function(value)
 			{
-				const css = "card-footer-item button ";
-				const selected = (task.vote && (value == task.vote.type_id)) ? "is-success is-medium" : "is-medium";
+				const css = "button is-fullwidth ";
+				const selected = (task.vote && (value == task.vote.type_id)) ? "is-primary" : "";
 				return css + selected;
 			}
 
@@ -53,7 +53,7 @@ class Task extends React.Component
 			{
 				switch (type_id) {
 					case 1:
-						return '';
+						return 'un';
 					case 2:
 						return 'pokestop';
 					case 3:
@@ -62,33 +62,36 @@ class Task extends React.Component
 						return 'disabled';
 				}
 			}
+
+			var votePanel = 		<div className="card-footer"> 
+			<button className={buttonClass(2)} onClick={this.vote.bind(this)} value="2">
+				<div className="image is-24x24">
+					<img className="is-32x32"  src={`/assets/m/pokestop.png`}  value="2"/>			
+				</div>					
+			</button>
+			<button className={buttonClass(3)} onClick={this.vote.bind(this)} value="3">
+				<div className="image is-24x24">
+					<img className="is-32x32"  src={`/assets/m/gym.png`}  value="3"/>			
+				</div>					
+			</button>
+			<button className={buttonClass(4)} onClick={this.vote.bind(this)} value="4"><span className="fa fa-ban"  value="4"> </span></button>
+		</div>;
 			html = 
-<div className="column is-one-quarter" id={task.name}>
-	<div style={{overflow:'hidden'}} className="card is-fullwidth">
-		<header className="card-header">
+<div className="" id={task.name}>
+	<div style={{overflow:'hidden', marginBottom: '10px'}} className="card is-fullwidth">
+		<header className={"card-header " + getImage(task.type_id)}>
 			<p className="card-header-title">
 				{task.name}
 			</p>
 			<div className="image is-24x24 is-hidden-tablet">
 				<img className="is-32x32"  src={`/assets/m/${getImage(task.type_id)}.png`}/>			
 			</div>			
-			<div  className="card-header-title image is-24x24 is-hidden-mobile">
-				<img  className="is-32x32" src={`/assets/m/${getImage(task.type_id)}.png`}/>			
+			<span className="tag is-dark is-small">{task.distance}m</span>
+			<div  className="is-24x24 is-hidden-mobile">
+				<img className="image is-32x32" src={`/assets/m/${getImage(task.type_id)}.png`}/>			
 			</div>
 		</header>
-		<footer className="card-footer  is-hidden-mobile"> 
-			<button className={buttonClass(2)} onClick={this.vote.bind(this)} value="2">
-				<div className="image is-24x24">
-					<img className="is-32x32"  src={`/assets/m/pokestop.png`}/>			
-				</div>					
-			</button>
-			<button className={buttonClass(3)} onClick={this.vote.bind(this)} value="3">
-				<div className="image is-24x24">
-					<img className="is-32x32"  src={`/assets/m/gym.png`}/>			
-				</div>					
-			</button>
-			<button className={buttonClass(4)} onClick={this.vote.bind(this)} value="4"><span className="fa fa-ban"> </span></button>
-		</footer>
+
 	</div>			
 </div>;
 		}

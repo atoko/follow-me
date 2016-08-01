@@ -2,8 +2,8 @@ var webpack = require('webpack');
 
 module.exports = {
   entry: [   
-    'webpack/hot/only-dev-server',  
-    'webpack-dev-server/client?http://192.168.0.2:8080',
+    //'webpack/hot/only-dev-server',  
+    //'webpack-dev-server/client?http://192.168.0.22:8080',
     './source/index.js'
   ], 
   module: {
@@ -25,10 +25,13 @@ module.exports = {
     contentBase: './distribution',
     hot: true,
     historyApiFallback: true
-  }/*,
+  },
   plugins: [
-    new webpack.ProvidePlugin({
+    /*new webpack.ProvidePlugin({
       'fetch': 'whatwg-fetch'
-    })
-  ]  */
+    })*/
+    new webpack.DefinePlugin({
+        'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'production')
+    }),    
+  ]  
 };
