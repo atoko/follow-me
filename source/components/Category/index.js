@@ -4,10 +4,10 @@ import * as actions from '../../actions';
 import Category from './presenter';
 
 function mapStateToProps(state) {
-  return {}
+	return {};
 }
 
 function mapDispatchToProps(dispatch) {
-  return { };
+	return {};
 }
 export default Category;

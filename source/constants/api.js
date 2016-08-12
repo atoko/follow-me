@@ -1,0 +1,1 @@
+export const APIROOT = "https://waypoint-oracle.herokuapp.com";

@@ -1,5 +1,4 @@
-var React = require('react')
-
+var React = require("react");
 module.exports = React.createClass({
 	propTypes: {
 		/*
@@ -11,26 +10,21 @@ module.exports = React.createClass({
 		slot: React.PropTypes.string.isRequired,
 		format: React.PropTypes.string
 	},
-
 	getDefaultProps: function() {
 		return {
-			format:''
-		}
+			format: ""
+		};
 	},
-
 	render: function() {
-		return (
-			<ins className="adsbygoogle"
-				style={Object.assign({display:'inline-block'}, this.props.style)}
+		return (<ins className="adsbygoogle"
+				style={Object.assign({display:"inline-block"}, this.props.style)}
 				data-ad-client={this.props.client}
 				data-ad-slot={this.props.slot}
-				data-ad-format={this.props.format}></ins>
-		)
+				data-ad-format={this.props.format}></ins>);
 	},
-
 	componentDidMount: function() {
-		if(typeof window !== 'undefined') {
+		if (typeof window !== "undefined") {
 			(window.adsbygoogle = window.adsbygoogle || []).push({});
 		}
 	}
-})
+});
